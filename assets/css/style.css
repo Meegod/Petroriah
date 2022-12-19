@@ -152,7 +152,13 @@ h6 {
 }
 
 #header .logo img {
-  max-height: 40px;
+  /* max-height: 40px; */
+  position: relative;
+    bottom: 40px;
+    right: 25px;
+
+    width: 200px;
+    max-height: 200px;
 }
 
 /*--------------------------------------------------------------
@@ -333,7 +339,7 @@ h6 {
 
 @media (max-width: 991px) {
   .mobile-nav-toggle {
-    display: block;
+    display:none;
   }
 
   .navbar ul {
