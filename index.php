@@ -1,3 +1,44 @@
+<?php
+if (isset($_POST["submit"])) {
+ $data = '{
+      "FromEmail":"godfreyekaji@gmail.com",
+      "FromName":"Your Mailjet Pilot",
+      "Recipients":[
+        {
+          "Email":"lindaiweka@gmail.com",
+          "Name":"Passenger 1"
+        }
+      ],
+      "Subject":"Your email flight plan!",
+      "Text-part":"Dear passenger, welcome to Mailjet! May the delivery force be with you!",
+      "Html-part":"<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!<table><tr><th>Fullname</th><td>'.$_POST["fullname"].'</td> </tr><tr> <th>Email</th> <td>'.$_POST["email"].'</td> </tr> <tr><th>Phone number</th><td>'.$_POST["phone"].'</td> </tr></table>"
+ }';
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://api.mailjet.com/v3/send',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS => $data,
+  CURLOPT_HTTPHEADER => array(
+    'Authorization: Basic Nzg0OGI2N2UxMjc5ZjgwZTViZGI3YTBmZjQ2YjE3ZWM6ODQ0Y2Y4MTc5YjJiN2M4NDU1MjkzNDUyZTZiYWYzYTA=',
+    'Content-Type: application/json'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,6 +77,26 @@
     .text-class-nav >li{
      color: white;
     }
+    .logo a{
+      color:red !important;
+    }
+ 
+    @media only screen and (max-width: 600px) {
+      .sm-ml-4{
+        margin-left: 24px;
+      }
+ 
+}
+
+@media only screen and(min-width:768px){
+  #hero{
+    padding-top:80px;
+  }
+}
+
+
+
+
   </style>
 
 </head>
@@ -51,18 +112,20 @@
       </div>
       <div class="modal-body p-4 py-5 p-md-5">
         <h3 class="text-center mb-3">Join Now For Free</h3>
-        <form action="" class="signup-form" method="post">
+        <form action="" class="signup-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
           <div class="form-group mb-2">
             <label for="name">Full Name</label>
-            <input type="text" class="form-control" placeholder="Enter FullName">
+            <input type="text" class="form-control" placeholder="Enter Full Name"
+            name="fullname">
           </div>
           <div class="form-group mb-2">
             <label for="email">Email Address</label>
-            <input type="text" class="form-control" placeholder="Enter Email"/>
+            <input type="text" class="form-control" placeholder="Enter Email"
+            name="email"/>
           </div>
           <div class="form-group mb-2">
             <label for="password">PhoneNumber</label>
-            <input type="text" class="form-control" placeholder="Enter PhoneNumber">
+            <input type="text" class="form-control" placeholder="Enter Phone Number">
           </div>
           <div class="form-group mb-2">
             <button type="submit" class="form-control btn btn-primary rounded submit px-3">JOIN NOW</button>
@@ -81,19 +144,17 @@
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-between">
-      <h1 class="logo"><a href="index.html">PRETORIAH</a></h1>
+      <div class="logo" style="color: red;"><a href="index.html"><img src="1.png"></a></div>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <!-- <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <!-- <li><a class="nav-link scrollto" href="#services">Services</a></li>
-          <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#team">Team</a></li> -->
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-          <li><a class="getstarted scrollto" href="#about">JOIN VIP TRADING NOW</a></li>
+          <li><a class="getstarted scrollto" href="#about"
+            data-toggle="modal" data-target="#exampleModalCenter">JOIN VIP TRADING NOW</a></li> -->
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -109,16 +170,18 @@
         <div class="col-xl-5 col-lg-6 pt-3 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
           <h1>Start Trading Like A VIP</h1>
           <ul class="text-class-nav">
-            <li><i class="bi bi-check"></i>FREE SIGNALS</li>
+            <li><i class="bi bi-check"></i>BEGINNERS TO <span class="sm-ml-4">ADVANCED</span> COURSES</li>
             <li><i class="bi bi-check"></i>FREE WEBINARS</li>
-            <li><i class="bi bi-check"></i>1 ZERO RISK TRADE</li>
-            <li><i class="bi bi-check"></i>1-ON-1 TRAINING <span class="session">SESSIONS</span></li>
+            <li><i class="bi bi-check"></i>FREE DAILY SIGNALS</li>
+            <li><i class="bi bi-check"></i>EXCLUSIVE CUSTOMER <span class="sm-ml-4">SUPPORT</span></li>
+            <li><i class="bi bi-check"></i>PERSONAL EDUCATION</li>
+            <!-- <li><i class="bi bi-check"></i>1-ON-1 TRAINING <span class="session">SESSIONS</span></li> -->
           </ul>
            <h2>Get the Ultimate Package and trade like a VIP</h2>
           <div><a 
             href="#" class="btn-get-started scrollto"
             data-toggle="modal" data-target="#exampleModalCenter"
-            >JOIN VIP TRADING NOW</a></div>
+            >JOIN US NOW</a></div>
         </div>
         <div class="col-xl-4 col-lg-6 order-1 order-lg-2 hero-img">
           <!-- <img src="assets/img/home-img.png" class="img-fluid animated" alt=""> -->
@@ -136,24 +199,6 @@
     
     
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   <!-- </main>End #main -->
